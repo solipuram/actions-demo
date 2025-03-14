@@ -25,11 +25,18 @@ jobs:
           fi
           echo "Gradle version: $GRADLE_VERSION"
           echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_ENV"
 
   update-run-name:
     needs: get-gradle-version
     name: Build - ${{ needs.get-gradle-version.outputs.gradle_version }}
     runs-on: ubuntu-latest
     steps:
-      - name: Set Workflow Run Name Dynamically
-        run: echo "GITHUB_RUN_NAME=Gradle Build - ${{ needs.get-gradle-version.outputs.gradle_version }}" >> $GITHUB_ENV
+      # - name: Set Workflow Run Name Dynamically
+      #   run: echo "GITHUB_RUN_NAME=Gradle Build - ${{ needs.get-gradle-version.outputs.gradle_version }}" >> $GITHUB_ENV
+        - name: Set values 
+          run: |
+           echo "Value:'Welcome to Actions'" >> "$GITHUB_ENV""
+        - name: print all the github env
+          run: |
+            cat $GITHUB_ENV
