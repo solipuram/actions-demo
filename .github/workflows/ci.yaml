@@ -36,7 +36,7 @@ jobs:
       #   run: echo "GITHUB_RUN_NAME=Gradle Build - ${{ needs.get-gradle-version.outputs.gradle_version }}" >> $GITHUB_ENV
         - name: Set values 
           run: |
-           echo "Value:'Welcome to Actions'" >> "$GITHUB_ENV""
+           echo "Value:'Welcome to Actions'" >> "$GITHUB_ENV"
         - name: print all the github env
           run: |
             cat $GITHUB_ENV
