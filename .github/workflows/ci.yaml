@@ -27,6 +27,7 @@ jobs:
 
   update-run-name:
     needs: get-gradle-version
+    name: Build - ${{ needs.get-gradle-version.outputs.gradle_version }}
     runs-on: ubuntu-latest
     steps:
       - name: Set Workflow Run Name Dynamically
