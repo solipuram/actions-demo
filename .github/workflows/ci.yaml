@@ -42,7 +42,7 @@ jobs:
           run: |
            GRADLE_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
            echo "Gradle Name: $GRADLE_NAME"
-           echo "Gradle Name: $GRADLE_NAME" >> "$GITHUB_ENV""
+           echo "Gradle Name: $GRADLE_NAME" >> "$GITHUB_ENV"
           
         - name: print all the env in stage2
           run: cat $GITHUB_ENV
