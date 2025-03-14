@@ -1,49 +1,49 @@
-name: Gradle Version Run Name
-run-name: "Build of ${{ github.event.repository.name }}"
+# name: Gradle Version Run Name
+# run-name: "Build of ${{ github.event.repository.name }}"
 
-on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+# on:
+#   push:
+#     branches:
+#       - master
+#   workflow_dispatch:
 
-jobs:
-  get-gradle-version:
-    runs-on: ubuntu-latest
-    outputs:
-      gradle_version: ${{ steps.extract-version.outputs.gradle_version }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+# jobs:
+#   get-gradle-version:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       gradle_version: ${{ steps.extract-version.outputs.gradle_version }}
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Extract Gradle Version
-        id: extract-version
-        run: |
-          GRADLE_VERSION=$(grep '^artifact_version=' gradle.properties | cut -d'=' -f2 || echo "")
-          if [[ -z "$GRADLE_VERSION" ]]; then
-            GRADLE_VERSION="Version Not Found"
-          fi
-          echo "Gradle version: $GRADLE_VERSION"
-          echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
-          echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_ENV"
-      - name: print all the env in stage1
-        run: cat $GITHUB_ENV
+#       - name: Extract Gradle Version
+#         id: extract-version
+#         run: |
+#           GRADLE_VERSION=$(grep '^artifact_version=' gradle.properties | cut -d'=' -f2 || echo "")
+#           if [[ -z "$GRADLE_VERSION" ]]; then
+#             GRADLE_VERSION="Version Not Found"
+#           fi
+#           echo "Gradle version: $GRADLE_VERSION"
+#           echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
+#           echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_ENV"
+#       - name: print all the env in stage1
+#         run: cat $GITHUB_ENV
 
-  update-run-name:
-    needs: get-gradle-version
-    name: Build - ${{ needs.get-gradle-version.outputs.gradle_version }}
-    runs-on: ubuntu-latest
-    steps:
-      # - name: Set Workflow Run Name Dynamically
-      #   run: echo "GITHUB_RUN_NAME=Gradle Build - ${{ needs.get-gradle-version.outputs.gradle_version }}" >> $GITHUB_ENV
-        - name: Checkout code
-          uses: actions/checkout@v4
-        - name: Extract Gradle Name
-          run: |
-           GRADLE_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
-           echo "Gradle Name: $GRADLE_NAME"
-           echo "Gradle Name: $GRADLE_NAME"
-           echo "Gradle Name= $GRADLE_NAME" >> "$GITHUB_ENV"     
+#   update-run-name:
+#     needs: get-gradle-version
+#     name: Build - ${{ needs.get-gradle-version.outputs.gradle_version }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       # - name: Set Workflow Run Name Dynamically
+#       #   run: echo "GITHUB_RUN_NAME=Gradle Build - ${{ needs.get-gradle-version.outputs.gradle_version }}" >> $GITHUB_ENV
+#         - name: Checkout code
+#           uses: actions/checkout@v4
+#         - name: Extract Gradle Name
+#           run: |
+#            GRADLE_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
+#            echo "Gradle Name: $GRADLE_NAME"
+#            echo "Gradle Name: $GRADLE_NAME"
+#            echo "Gradle Name= $GRADLE_NAME" >> "$GITHUB_ENV"     
           
-        - name: print all the env in stage2
-          run: cat $GITHUB_ENV
+#         - name: print all the env in stage2
+#           run: cat $GITHUB_ENV
