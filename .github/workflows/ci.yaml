@@ -18,9 +18,9 @@ jobs:
       - name: Extract Gradle Version
         id: extract-version
         run: |
-          GRADLE_VERSION=$(grep '^gradle_version=' gradle.properties | cut -d'=' -f2 || echo "")
+          GRADLE_VERSION=$(grep '^artifact_version=' gradle.properties | cut -d'=' -f2 || echo "")
           if [[ -z "$GRADLE_VERSION" ]]; then
-            GRADLE_VERSION="1.0.0"
+            GRADLE_VERSION="Version Not Found"
           fi
           echo "Gradle version: $GRADLE_VERSION"
           echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
