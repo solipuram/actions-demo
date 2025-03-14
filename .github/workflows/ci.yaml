@@ -26,6 +26,8 @@ jobs:
           echo "Gradle version: $GRADLE_VERSION"
           echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
           echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_ENV"
+      - name: print all the env in stage1
+        run: env
 
   update-run-name:
     needs: get-gradle-version
@@ -41,6 +43,5 @@ jobs:
            GRADLE_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
            echo "Gradle Name: $GRADLE_NAME"
           
-        - name: print all the github env
-          run: |
-            cat $GITHUB_ENV
+        - name: print all the env in stage2
+          run: env
