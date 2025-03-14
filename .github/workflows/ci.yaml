@@ -34,7 +34,9 @@ jobs:
     steps:
       # - name: Set Workflow Run Name Dynamically
       #   run: echo "GITHUB_RUN_NAME=Gradle Build - ${{ needs.get-gradle-version.outputs.gradle_version }}" >> $GITHUB_ENV
-        - name: Set values 
+        - name: Checkout code
+          uses: actions/checkout@v4
+        - name: Extract Gradle Name
           run: |
            GRADLE_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
            echo "Gradle Name: $GRADLE_NAME"
