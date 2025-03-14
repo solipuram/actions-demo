@@ -48,3 +48,56 @@
           
 #         - name: print all the env in stage2
 #           run: cat $GITHUB_ENV
+
+
+
+#### API RUN-Name Updation
+
+# - name: Get Build Version
+#         run: echo "BUILD_VERSION=$(./gradlew -q properties | grep "version:" | awk '{print $2}')" >> $GITHUB_ENV
+
+#       - name: Rename Workflow Run
+#         run: |
+#           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+#           -H "Accept: application/vnd.github.v3+json" \
+#           https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }} \
+#           -d '{"name": "Build v${{ env.BUILD_VERSION }}"}'
+
+
+### Run -name another example
+
+# name: Build and Test
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - develop
+#   pull_request:
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup JDK
+#         uses: actions/setup-java@v3
+#         with:
+#           distribution: 'temurin'
+#           java-version: '17'
+
+#       - name: Get Build Version
+#         run: echo "BUILD_VERSION=$(./gradlew -q properties | grep "version:" | awk '{print $2}')" >> $GITHUB_ENV
+
+#       - name: Set Run Name
+#         run: echo "RUN_NAME=Build v${{ env.BUILD_VERSION }}" >> $GITHUB_ENV
+
+#       - name: Gradle Build
+#         run: ./gradlew build
+
+#     run-name: ${{ env.RUN_NAME }}
