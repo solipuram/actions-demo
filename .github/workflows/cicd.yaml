@@ -31,6 +31,8 @@ jobs:
 
           echo "artifact_version=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+      - name: Print Output Variables
+        run: env | grep OUTPUT
 
   print-artifact-values:
     needs: read-gradle-properties
@@ -40,3 +42,7 @@ jobs:
         run: |
           echo "Artifact Name: ${{ needs.read-gradle-properties.outputs.artifact_name }}"
           echo "Artifact Version: ${{ needs.read-gradle-properties.outputs.artifact_version }}"
+
+      - name: Print Output Variables
+        run: env | grep OUTPUT
+
