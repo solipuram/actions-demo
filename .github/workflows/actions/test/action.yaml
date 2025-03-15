@@ -1,0 +1,10 @@
+name: "Print Message Action"
+description: "Sets and prints a greeting message"
+runs:
+  using: "composite"
+  steps:
+    - name: Set Environment Variable
+      run: echo "GREETING=Welcome to actions" >> $GITHUB_ENV
+      shell: bash
+
+  

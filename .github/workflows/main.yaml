@@ -1,0 +1,33 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    outputs:
+      build_version: ${{ steps.read-version.outputs.BUILD_VERSION }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read Gradle Version
+        id: read-version
+        run: |
+          BUILD_VERSION=$(grep "build.version" gradle.properties | cut -d'=' -f2 | tr -d ' ')
+          echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_ENV
+          echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_OUTPUT
+
+  run-composite-action:
+    needs: get-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Call Composite Action
+        uses: ./.github/actions/test/
+run-name: Build Version - ${{ needs.get-version.outputs.build_version }}

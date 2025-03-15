@@ -1,49 +1,49 @@
-# Sample outputs usage example
-name: Gradle Artifact Workflow
+# # Sample outputs usage example
+# name: Gradle Artifact Workflow
 
-on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+# on:
+#   push:
+#     branches:
+#       - master
+#   workflow_dispatch:
 
-jobs:
-  read-gradle-properties:
-    runs-on: ubuntu-latest
-    outputs:
-      artifact_version: ${{ steps.extract-vars.outputs.artifact_version }}
-      artifact_name: ${{ steps.extract-vars.outputs.artifact_name }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+# jobs:
+#   read-gradle-properties:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       artifact_version: ${{ steps.extract-vars.outputs.artifact_version }}
+#       artifact_name: ${{ steps.extract-vars.outputs.artifact_name }}
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4
 
-      - name: Extract artifact_version and artifact_name
-        id: extract-vars
-        run: |
-          ARTIFACT_VERSION=$(grep '^artifact_version=' gradle.properties | cut -d'=' -f2 || echo "")
-          ARTIFACT_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
+#       - name: Extract artifact_version and artifact_name
+#         id: extract-vars
+#         run: |
+#           ARTIFACT_VERSION=$(grep '^artifact_version=' gradle.properties | cut -d'=' -f2 || echo "")
+#           ARTIFACT_NAME=$(grep '^artifact_name=' gradle.properties | cut -d'=' -f2 || echo "")
 
-          if [[ -z "$ARTIFACT_VERSION" ]]; then
-            ARTIFACT_VERSION="1.0.0"
-          fi
-          if [[ -z "$ARTIFACT_NAME" ]]; then
-            ARTIFACT_NAME="default-artifact"
-          fi
+#           if [[ -z "$ARTIFACT_VERSION" ]]; then
+#             ARTIFACT_VERSION="1.0.0"
+#           fi
+#           if [[ -z "$ARTIFACT_NAME" ]]; then
+#             ARTIFACT_NAME="default-artifact"
+#           fi
 
-          echo "artifact_version=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
-          echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
-      - name: Print Output Variables
-        run: env | grep OUTPUT
+#           echo "artifact_version=$ARTIFACT_VERSION" >> "$GITHUB_OUTPUT"
+#           echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+#       - name: Print Output Variables
+#         run: env | grep OUTPUT
 
-  print-artifact-values:
-    needs: read-gradle-properties
-    runs-on: ubuntu-latest
-    steps:
-      - name: Retrieve Values from First Runner
-        run: |
-          echo "Artifact Name: ${{ needs.read-gradle-properties.outputs.artifact_name }}"
-          echo "Artifact Version: ${{ needs.read-gradle-properties.outputs.artifact_version }}"
+#   print-artifact-values:
+#     needs: read-gradle-properties
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Retrieve Values from First Runner
+#         run: |
+#           echo "Artifact Name: ${{ needs.read-gradle-properties.outputs.artifact_name }}"
+#           echo "Artifact Version: ${{ needs.read-gradle-properties.outputs.artifact_version }}"
 
-      - name: Print Output Variables
-        run: env | grep OUTPUT
+#       - name: Print Output Variables
+#         run: env | grep OUTPUT
 
