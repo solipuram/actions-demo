@@ -3,7 +3,7 @@ name: Main Workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   get-version:
@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Read Gradle Version
         id: read-version
         run: |
@@ -21,7 +22,6 @@ jobs:
           echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_OUTPUT
 
   run-composite-action:
-    needs: get-version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,7 +29,5 @@ jobs:
 
       - name: Call Composite Action
         uses: ./.github/actions/print-message
-       
-      
 
-run-name: Build Version - ${{ steps.get-version.outputs.BUILD_VERSION }}
+run-name: Build Version - ${{ needs.get-version.outputs.build_version }}
