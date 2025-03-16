@@ -24,6 +24,7 @@ jobs:
           echo "Temp Directory: ${{ runner.temp }}"
           echo "Tool Cache Directory: ${{ runner.tool_cache }}"
           echo "Event path: ${{ github.event_path }}"
+          cat ${{ github.event_path }}
       - name: Job status
         if: ${{ job.status == 'success' }}
         run: echo "Job success!"
