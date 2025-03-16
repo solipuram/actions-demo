@@ -31,7 +31,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Log Run Name with Build Version
-        run: echo "##[group]Run Name: Build Version - ${{ needs.get-version.outputs.build_version }}"
+        run: | 
+            echo "##[group]Run Name: Build Version - ${{ needs.get-version.outputs.build_version }}"
+
 
       - name: Call Composite Action
         uses: ./.github/actions/print-message
