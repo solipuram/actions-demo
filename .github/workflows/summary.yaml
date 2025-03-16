@@ -35,11 +35,10 @@ jobs:
           echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
           echo "RUN_NUMBER=${{ github.run_number }}" >> $GITHUB_ENV
 
-      # Step 5: Capture all environment variables dynamically
       - name: Collect all environment variables
-        run: printenv | grep -E '^(CURRENT_DATE|BRANCH_NAME|GENERATED_VALUE|RUN_ID|RUN_NUMBER)' >> /tmp/workflow_env.txt
-
-      # Step 6: Generate GitHub Summary from collected variables
+        run: printenv > /tmp/workflow_env.txt
+ 
+      # Generate GitHub Summary dynamically
       - name: Generate GitHub Summary
         run: |
           echo "## 🚀 Workflow Summary" >> $GITHUB_STEP_SUMMARY
@@ -47,6 +46,8 @@ jobs:
 
           echo "| Environment Variable | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|----------------------|-------|" >> $GITHUB_STEP_SUMMARY
+
+          # Read all environment variables and format them into a markdown table
           while IFS='=' read -r key value; do
             echo "| $key | $value |" >> $GITHUB_STEP_SUMMARY
           done < /tmp/workflow_env.txt
