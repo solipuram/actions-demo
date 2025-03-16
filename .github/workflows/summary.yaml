@@ -1,0 +1,52 @@
+name: Fully Dynamic GitHub Summary
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 1: Set some dynamic environment variables
+      - name: Step 1 - Get Current Date
+        id: step1
+        run: echo "CURRENT_DATE=$(date)" >> $GITHUB_ENV
+
+      # Step 2: Get Branch Name
+      - name: Step 2 - Get Branch Name
+        id: step2
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      # Step 3: Store a computed value
+      - name: Step 3 - Generate Some Value
+        id: step3
+        run: echo "GENERATED_VALUE=Hello, GitHub Actions!" >> $GITHUB_ENV
+
+      # Step 4: Store workflow run details
+      - name: Step 4 - Store Run Info
+        id: step4
+        run: |
+          echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
+          echo "RUN_NUMBER=${{ github.run_number }}" >> $GITHUB_ENV
+
+      # Step 5: Capture all environment variables dynamically
+      - name: Collect all environment variables
+        run: printenv | grep -E '^(CURRENT_DATE|BRANCH_NAME|GENERATED_VALUE|RUN_ID|RUN_NUMBER)' >> /tmp/workflow_env.txt
+
+      # Step 6: Generate GitHub Summary from collected variables
+      - name: Generate GitHub Summary
+        run: |
+          echo "## 🚀 Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "| Environment Variable | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------------------|-------|" >> $GITHUB_STEP_SUMMARY
+          while IFS='=' read -r key value; do
+            echo "| $key | $value |" >> $GITHUB_STEP_SUMMARY
+          done < /tmp/workflow_env.txt
