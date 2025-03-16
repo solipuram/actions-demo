@@ -18,3 +18,6 @@ jobs:
           echo "Commit SHA: ${{ github.sha }}"
           echo "Triggered by: ${{ github.actor }}"
           echo "Running OS ${{ runner.os }}"
+      - name: Job status
+        if: ${{ job.status == 'failure' }}
+        run: echo "Job failed!"
