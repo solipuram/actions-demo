@@ -18,6 +18,11 @@ jobs:
           echo "Commit SHA: ${{ github.sha }}"
           echo "Triggered by: ${{ github.actor }}"
           echo "Running OS ${{ runner.os }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run Number: ${{ github.run_number }}"
+          echo "Workspace: ${{ env.GITHUB_WORKSPACE }}"
+          echo "Temp Directory: ${{ runner.temp }}"
+          echo "Tool Cache Directory: ${{ runner.tool_cache }}"
       - name: Job status
         if: ${{ job.status == 'success' }}
-        run: echo "Job failed!"
+        run: echo "Job success!"
