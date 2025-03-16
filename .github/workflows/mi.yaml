@@ -9,6 +9,8 @@ jobs:
   example:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Print github.ref and github.ref_name
         run: |
           echo "Full ref: ${{ github.ref }}"
@@ -20,7 +22,7 @@ jobs:
           echo "Running OS ${{ runner.os }}"
           echo "Run ID: ${{ github.run_id }}"
           echo "Run Number: ${{ github.run_number }}"
-          echo "Workspace: ${{ env.GITHUB_WORKSPACE }}"
+          echo "Workspace: ${{ GITHUB_WORKSPACE }}"
           echo "Temp Directory: ${{ runner.temp }}"
           echo "Tool Cache Directory: ${{ runner.tool_cache }}"
           echo "Event path: ${{ github.event_path }}"
