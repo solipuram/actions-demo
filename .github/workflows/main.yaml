@@ -36,4 +36,4 @@ jobs:
 
 
       - name: Call Composite Action
-        uses: ./.github/actions/print-message
+        uses: ./.github/actions/print-message/
