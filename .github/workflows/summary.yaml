@@ -24,30 +24,24 @@ jobs:
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       # Step 3: Store a computed value
-      - name: Step 3 - Generate Some Value
-        id: step3
-        run: echo "GENERATED_VALUE=Hello, GitHub Actions!" >> $GITHUB_ENV
-
-      # Step 4: Store workflow run details
-      - name: Step 4 - Store Run Info
-        id: step4
+      - name: Step 3 - Generate Random Value
         run: |
-          echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
-          echo "RUN_NUMBER=${{ github.run_number }}" >> $GITHUB_ENV
+          echo "RANDOM_VALUE=$(openssl rand -hex 4)" >> $GITHUB_ENV
+          echo "RANDOM_VALUE=$(openssl rand -hex 4)" >> /tmp/used_env_vars.txt
 
-      - name: Collect all environment variables
-        run: printenv > /tmp/workflow_env.txt
- 
-      # Generate GitHub Summary dynamically
+      - name: Step 4 - Capture Current Date
+        run: |
+          echo "CURRENT_DATE=$(date)" >> $GITHUB_ENV
+          echo "CURRENT_DATE=$(date)" >> /tmp/used_env_vars.txt
+
+      - name: Step 5 - Store GitHub Metadata
+        run: |
+          echo "GIT_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          echo "GIT_BRANCH=${GITHUB_REF#refs/heads/}" >> /tmp/used_env_vars.txt
+          echo "GIT_COMMIT=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "GIT_COMMIT=${GITHUB_SHA}" >> /tmp/used_env_vars.txt
+
       - name: Generate GitHub Summary
-        run: |
-          echo "## 🚀 Workflow Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "| Environment Variable | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|----------------------|-------|" >> $GITHUB_STEP_SUMMARY
-
-          # Read all environment variables and format them into a markdown table
-          while IFS='=' read -r key value; do
-            echo "| $key | $value |" >> $GITHUB_STEP_SUMMARY
-          done < /tmp/workflow_env.txt
+        uses: ./.github/actions/summary
+        with:
+          env_vars: ${{ toJSON(env) }}
