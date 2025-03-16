@@ -42,6 +42,13 @@ jobs:
           echo "GIT_COMMIT=${GITHUB_SHA}" >> /tmp/used_env_vars.txt
 
       - name: Generate GitHub Summary
-        uses: ./.github/actions/summary
-        with:
-          env_vars: ${{ toJSON(env) }}
+        run: |
+          echo "## 🚀 Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment Variable | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------------------|-------|" >> $GITHUB_STEP_SUMMARY
+
+          # Read only the explicitly set variables and format them into a markdown table
+          while IFS='=' read -r key value; do
+            echo "| $key | $value |" >> $GITHUB_STEP_SUMMARY
+          done < /tmp/used_env_vars.txt
