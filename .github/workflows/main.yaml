@@ -1,42 +1,42 @@
-name: Main Workflow
+# name: Main Workflow
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-run-name: "Build Running - ${{ github.sha }}"  # Static + Dynamic Git SHA
+# run-name: "Build Running - ${{ github.sha }}"  # Static + Dynamic Git SHA
 
-jobs:
-  get-version:
-    runs-on: ubuntu-latest
-    outputs:
-      build_version: ${{ steps.read-version.outputs.BUILD_VERSION }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+# jobs:
+#   get-version:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       build_version: ${{ steps.read-version.outputs.BUILD_VERSION }}
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Read Gradle Version
-        id: read-version
-        run: |
-          BUILD_VERSION=$(grep "build.version" gradle.properties | cut -d'=' -f2 | tr -d ' ')
-          echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_ENV
-          echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_OUTPUT
-      - name: Set Run Name
-        run: echo "RUN_NAME=Build Version - $BUILD_VERSION" >> $GITHUB_ENV  # Save it for later
-
-
-  run-composite-action:
-    needs: get-version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Log Run Name with Build Version
-        run: | 
-            echo "##[group]Run Name: Build Version - ${{ needs.get-version.outputs.BUILD_VERSION }}"
+#       - name: Read Gradle Version
+#         id: read-version
+#         run: |
+#           BUILD_VERSION=$(grep "build.version" gradle.properties | cut -d'=' -f2 | tr -d ' ')
+#           echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_ENV
+#           echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_OUTPUT
+#       - name: Set Run Name
+#         run: echo "RUN_NAME=Build Version - $BUILD_VERSION" >> $GITHUB_ENV  # Save it for later
 
 
-      - name: Call Composite Action
-        uses: ./.github/actions/print-message/
+#   run-composite-action:
+#     needs: get-version
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Log Run Name with Build Version
+#         run: | 
+#             echo "##[group]Run Name: Build Version - ${{ needs.get-version.outputs.BUILD_VERSION }}"
+
+
+#       - name: Call Composite Action
+#         uses: ./.github/actions/print-message/
