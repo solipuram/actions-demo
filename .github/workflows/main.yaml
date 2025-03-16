@@ -32,7 +32,7 @@ jobs:
 
       - name: Log Run Name with Build Version
         run: | 
-            echo "##[group]Run Name: Build Version - ${{ needs.get-version.outputs.build_version }}"
+            echo "##[group]Run Name: Build Version - ${{ needs.get-version.outputs.BUILD_VERSION }}"
 
 
       - name: Call Composite Action
