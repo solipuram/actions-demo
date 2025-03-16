@@ -19,5 +19,5 @@ jobs:
           echo "Triggered by: ${{ github.actor }}"
           echo "Running OS ${{ runner.os }}"
       - name: Job status
-        if: ${{ job.status == 'failure' }}
+        if: ${{ job.status == 'success' }}
         run: echo "Job failed!"
