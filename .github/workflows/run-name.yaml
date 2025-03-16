@@ -2,11 +2,7 @@
 # name: Gradle Version Run Name
 # run-name: "Build of ${{ github.event.repository.name }}"
 
-# on:
-#   push:
-#     branches:
-#       - master
-#   workflow_dispatch:
+
 
 # jobs:
 #   get-gradle-version:

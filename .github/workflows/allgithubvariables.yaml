@@ -1,10 +1,7 @@
 # # Sample All github variables exmple
 # name: Main Workflow
 
-# on:
-#   push:
-#     branches:
-#       - master
+
 
 # jobs:
 #   example:

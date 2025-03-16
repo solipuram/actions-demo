@@ -1,11 +1,7 @@
 # # Sample outputs usage example
 # name: Gradle Artifact Workflow
 
-# on:
-#   push:
-#     branches:
-#       - master
-#   workflow_dispatch:
+
 
 # jobs:
 #   read-gradle-properties:

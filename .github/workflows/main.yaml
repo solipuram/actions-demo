@@ -1,9 +1,6 @@
 # name: Main Workflow
 
-# on:
-#   push:
-#     branches:
-#       - master
+
 
 # run-name: "Build Running - ${{ github.sha }}"  # Static + Dynamic Git SHA
 
