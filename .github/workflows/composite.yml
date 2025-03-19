@@ -1,0 +1,48 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Prepare Action
+        id: prepare
+        uses: ./actions/prepare
+
+    outputs:
+      buildVersion: ${{ steps.prepare.outputs.buildVersion }}
+      applicationName: ${{ steps.prepare.outputs.applicationName }}
+
+  build:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Build Action
+        id: build
+        uses: ./actions/build
+        with:
+          buildVersion: ${{ needs.prepare.outputs.buildVersion }}
+          applicationName: ${{ needs.prepare.outputs.applicationName }}
+
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Push Action
+        uses: ./actions/push
+        with:
+          buildVersion: ${{ needs.build.outputs.buildVersion }}
+          applicationName: ${{ needs.build.outputs.applicationName }}

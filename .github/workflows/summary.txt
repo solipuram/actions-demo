@@ -52,3 +52,4 @@ jobs:
           while IFS='=' read -r key value; do
             echo "| $key | $value |" >> $GITHUB_STEP_SUMMARY
           done < /tmp/used_env_vars.txt
+      

@@ -1,0 +1,17 @@
+name: "Push Action"
+description: "Push the Docker image to registry"
+
+inputs:
+  buildVersion:
+    description: "Build Version"
+    required: true
+  applicationName:
+    description: "Application Name"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+   - name: print message
+     run: |
+      echo "Welocme to push stage"

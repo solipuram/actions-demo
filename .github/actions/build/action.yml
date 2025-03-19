@@ -1,0 +1,27 @@
+name: "Build Action"
+description: "Build the application and copy JAR file"
+
+inputs:
+  buildVersion:
+    description: "Build Version"
+    required: true
+  applicationName:
+    description: "Application Name"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+     - name: Checkout Code
+       uses: actions/checkout@v3
+       shell: bash
+     - name: Extract Build Properties
+       id: extract
+       shell: bash
+       run: |
+        buildVersion=$(grep 'name_version=' build.properties | cut -d '=' -f2)
+        applicationName=$(grep 'name=' build.properties | cut -d '=' -f2)
+        echo "buildVersion=$buildVersion" >> $GITHUB_ENV
+        echo "applicationName=$applicationName" >> $GITHUB_ENV
+        echo "::set-output name=buildVersion::$buildVersion"
+        echo "::set-output name=applicationName::$applicationName"
