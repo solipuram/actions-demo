@@ -14,7 +14,7 @@ jobs:
 
       - name: Run Prepare Action
         id: prepare
-        uses: ./.actions/prepare/
+        uses: ./.github/actions/prepare/
 
     outputs:
       buildVersion: ${{ steps.prepare.outputs.buildVersion }}
@@ -29,7 +29,7 @@ jobs:
 
       - name: Run Build Action
         id: build
-        uses: ./actions/build/
+        uses: ./.github/actions/build/
         with:
           buildVersion: ${{ needs.prepare.outputs.buildVersion }}
           applicationName: ${{ needs.prepare.outputs.applicationName }}
@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Push Action
-        uses: ./actions/push/
+        uses: ./.github/actions/push/
         with:
           buildVersion: ${{ needs.build.outputs.buildVersion }}
           applicationName: ${{ needs.build.outputs.applicationName }}
