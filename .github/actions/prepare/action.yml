@@ -19,8 +19,8 @@ runs:
        id: extract
        shell: bash
        run: |
-        buildVersion=$(grep 'artifact_version=' build.properties | cut -d '=' -f2)
-        applicationName=$(grep 'artifact_name=' build.properties | cut -d '=' -f2)
+        buildVersion=$(grep 'artifact_version=' gradle.properties | cut -d '=' -f2)
+        applicationName=$(grep 'artifact_name=' gradle.properties | cut -d '=' -f2)
         echo "buildVersion=$buildVersion" >> $GITHUB_ENV
         echo "applicationName=$applicationName" >> $GITHUB_ENV
         echo "::set-output name=buildVersion::$buildVersion"
