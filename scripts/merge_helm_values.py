@@ -3,7 +3,7 @@ import yaml
 
 # Define absolute paths
 REPO_ROOT = os.getcwd()  # Get the root directory of the repository
-COMMON_FILE = os.path.join(REPO_ROOT, "common.yaml")
+COMMON_FILE = os.path.join(REPO_ROOT, "common.yml")
 VALUES_DIR = os.path.join(REPO_ROOT, "cicd/charts/")
 
 def load_yaml(file_path):
