@@ -1,22 +1,28 @@
 import os
 import yaml
+from collections import OrderedDict
 
 # Define absolute paths
 REPO_ROOT = os.getcwd()  # Get the root directory of the repository
-COMMON_FILE = os.path.join(REPO_ROOT, "common.yml")
-VALUES_DIR = os.path.join(REPO_ROOT, "cicd/charts/")
+COMMON_FILE = os.path.join(REPO_ROOT, "common.yaml")
+VALUES_DIR = os.path.join(REPO_ROOT, "cicd/charts")  # Updated path
+
+# Custom Dumper to preserve order
+class NoAliasDumper(yaml.SafeDumper):
+    def ignore_aliases(self, data):
+        return True
 
 def load_yaml(file_path):
-    """Load YAML file and return dictionary (returns empty dict if file is empty)."""
+    """Load YAML file and return dictionary (preserving order)."""
     if not os.path.exists(file_path):
         print(f"❌ ERROR: {file_path} not found.")
-        return {}
+        return OrderedDict()  # Use OrderedDict to maintain order
 
     with open(file_path, "r") as f:
-        data = yaml.safe_load(f) or {}
+        data = yaml.safe_load(f) or OrderedDict()
 
     print(f"\n📂 Contents of {file_path}:")
-    print(yaml.dump(data, default_flow_style=False))
+    print(yaml.dump(data, default_flow_style=False, sort_keys=False))
 
     return data
 
@@ -33,7 +39,7 @@ def merge_yaml_files():
     # Load common.yaml
     common_data = load_yaml(COMMON_FILE)
 
-    # Check if /cicd folder exists
+    # Check if /cicd/charts/ folder exists
     if not os.path.exists(VALUES_DIR):
         print(f"❌ ERROR: Directory '{VALUES_DIR}' does not exist!")
         return
@@ -56,17 +62,19 @@ def merge_yaml_files():
             # Load environment-specific values
             env_data = load_yaml(env_file)
 
-            # Merge environment values (overrides common values)
-            merged_data = {**common_data, **env_data}
+            # Merge environment values (overrides common values), keeping order
+            merged_data = OrderedDict()
+            merged_data.update(common_data)  # Keep original order from common.yaml
+            merged_data.update(env_data)  # Override with env-specific values
 
-            # Write merged values to a new file
+            # Write merged values to a new file, preserving order
             with open(output_file, "w") as f:
-                yaml.dump(merged_data, f, default_flow_style=False)
+                yaml.dump(merged_data, f, default_flow_style=False, sort_keys=False, Dumper=NoAliasDumper)
 
             # Print merged content
             print(f"\n✅ Merged values written to: {output_file}")
             print(f"\n📂 Merged contents of {output_file}:")
-            print(yaml.dump(merged_data, default_flow_style=False))
+            print(yaml.dump(merged_data, default_flow_style=False, sort_keys=False, Dumper=NoAliasDumper))
 
     if not found_values_files:
         print(f"❌ ERROR: No 'values-<env>.yml' files found in {VALUES_DIR}!")
