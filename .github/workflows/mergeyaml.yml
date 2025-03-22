@@ -28,5 +28,8 @@ jobs:
 
       - name: Run merge script
         run: python scripts/merge_helm_values.py
+      - name: Debug - List all files in repo
+        run: ls -R /home/runner/work/actions-demo/
+
       - name: Display merged YAML files
         run: cat cicd/merge-values-*.yml || echo "❌ No merged files found"
