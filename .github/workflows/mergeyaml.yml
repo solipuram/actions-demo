@@ -29,4 +29,4 @@ jobs:
       - name: Run merge script
         run: python scripts/merge_helm_values.py
       - name: Display merged YAML files
-        run: cat cicd/chart/merge-values-*.yml
+        run: cat cicd/merge-values-*.yml
