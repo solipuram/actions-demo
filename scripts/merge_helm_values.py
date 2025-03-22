@@ -4,7 +4,7 @@ import yaml
 # Define absolute paths
 REPO_ROOT = os.getcwd()  # Get the root directory of the repository
 COMMON_FILE = os.path.join(REPO_ROOT, "common.yaml")
-VALUES_DIR = os.path.join(REPO_ROOT, "cicd")
+VALUES_DIR = os.path.join(REPO_ROOT, "cicd/charts/")
 
 def load_yaml(file_path):
     """Load YAML file and return dictionary (returns empty dict if file is empty)."""
