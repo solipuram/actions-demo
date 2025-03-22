@@ -1,0 +1,5 @@
+replicaCount: 2
+image:
+  tag: latest
+env:
+  LOG_LEVEL: "info"
