@@ -31,5 +31,14 @@ jobs:
       - name: Debug - List all files in repo
         run: ls -R /home/runner/work/actions-demo/
 
-      - name: Display merged YAML files
-        run: cat cicd/charts/merge-values-*.yml || echo "❌ No merged files found"
+      - name: Display Merged Files
+        run: |
+          echo "📂 Listing merged files:"
+          ls -l cicd/charts/merge-values-*.yml
+
+          echo "📜 Merged File Contents:"
+          for file in cicd/charts/merge-values-*.yml; do
+            echo "🔹 Merged File: $file"
+            cat "$file"
+            echo "-------------------------------------"
+          done
