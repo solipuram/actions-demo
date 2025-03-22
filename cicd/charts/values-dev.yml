@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 env: dev
 
-replicaCount: 1
+replicaCount: 3
 
 image:
   repository: nginx
