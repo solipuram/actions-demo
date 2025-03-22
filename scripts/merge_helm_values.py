@@ -2,7 +2,7 @@ import os
 import yaml
 
 # Define the directory containing Helm values files
-VALUES_DIR = "./cicd/chart"
+VALUES_DIR = "cicd/chart/"
 COMMON_FILE = os.path.join(VALUES_DIR, "common.yaml")
 
 def load_yaml(file_path):
