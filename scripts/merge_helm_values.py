@@ -4,8 +4,8 @@ from collections import OrderedDict
 
 # Define absolute paths
 REPO_ROOT = os.getcwd()  # Get the root directory of the repository
-COMMON_FILE = os.path.join(REPO_ROOT, "common.yaml")
-VALUES_DIR = os.path.join(REPO_ROOT, "cicd/charts")  # Updated path
+COMMON_FILE = os.path.join(REPO_ROOT, "common.yml")
+VALUES_DIR = os.path.join(REPO_ROOT, "cicd/charts/")  # Updated path
 
 # Custom Dumper to preserve order
 class NoAliasDumper(yaml.SafeDumper):
