@@ -1,22 +1,22 @@
 import os
 import yaml
 
-# Define the directory containing Helm values files
-VALUES_DIR = "cicd/chart/"
-COMMON_FILE = os.path.join(VALUES_DIR, "common.yaml")
+# Define file paths
+COMMON_FILE = "./common.yaml"  # Common file is in the repo root
+VALUES_DIR = "./cicd"  # Environment-specific files are in the /cicd folder
 
 def load_yaml(file_path):
     """Load YAML file and return dictionary (returns empty dict if file is empty)."""
     if not os.path.exists(file_path):
-        print(f"Warning: {file_path} not found.")
+        print(f"⚠️ Warning: {file_path} not found.")
         return {}
-    
+
     with open(file_path, "r") as f:
         data = yaml.safe_load(f) or {}
-    
-    print(f"\nContents of {file_path}:")
+
+    print(f"\n📂 Contents of {file_path}:")
     print(yaml.dump(data, default_flow_style=False))
-    
+
     return data
 
 def merge_yaml_files():
@@ -26,7 +26,7 @@ def merge_yaml_files():
 
     # Iterate over all environment-specific YAML files (values-<env>.yml)
     for file in os.listdir(VALUES_DIR):
-        if file.startswith("values-") and file.endswith(".yml") and file != "common.yaml":
+        if file.startswith("values-") and file.endswith(".yml"):
             env_name = file.replace("values-", "").replace(".yml", "")
             env_file = os.path.join(VALUES_DIR, file)
             output_file = os.path.join(VALUES_DIR, f"merge-values-{env_name}.yml")
@@ -42,10 +42,9 @@ def merge_yaml_files():
                 yaml.dump(merged_data, f, default_flow_style=False)
 
             # Print merged content
-            print(f"\nMerged values for {env_name}:")
+            print(f"\n✅ Merged values written to: {output_file}")
+            print(f"\n📂 Merged contents of {output_file}:")
             print(yaml.dump(merged_data, default_flow_style=False))
-
-            print(f"✅ Merged file created: {output_file}")
 
 if __name__ == "__main__":
     merge_yaml_files()
